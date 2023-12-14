@@ -26,7 +26,7 @@ echo
 
 # extract index transcriptionIDs from quant.sf file to drive our main loop
 ##TRANSCRIPTION_IDS_20=$(grep TRI $QUANT_FILE| awk '{print $1}'| sort -u| head -200)     # TEST MODE: run only 1st 20
-TRANSCRIPTION_IDS=$(grep TRI $QUANT_FILE| awk '{print $1}'| sort -u|tail -73)
+TRANSCRIPTION_IDS=$(grep TRI $QUANT_FILE| awk '{print $1}'| sort -u)
 
 echo "Results will be written to: (${FIND_RESULTS_FILE})"
 echo "Seeking $(echo "$TRANSCRIPTION_IDS"| wc -l) unique TransctionIDs from file: ${QUANT_FILE##*/}"
