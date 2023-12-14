@@ -1,0 +1,6 @@
+input/*
+!input/.DoNotDeleteDir
+log/*
+output/*
+*.sf
+*.fasta
