@@ -38,8 +38,8 @@ echo "(${ANNOTATION_FILE##*/})"
 echo
 
 # extract index transcriptionIDs from quant.sf file to drive our main loop
-TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u| head -200)     # TEST EX.: to run only 1st 200
-#TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u)
+#TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u| head -50)     # TEST EX.: to run only 1st 50
+TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u)
 
 echo "Results will be written to: (${FOUND_RESULTS_FILE})"
 echo "Seeking $(echo "$TRANSCRIPTION_IDS"| wc -l) unique TransctionIDs from file: ${QUANT_FILE##*/}"
