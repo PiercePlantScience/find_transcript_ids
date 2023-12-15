@@ -38,9 +38,8 @@ echo "(${ANNOTATION_FILE##*/})"
 echo
 
 # extract index transcriptionIDs from quant.sf file to drive our main loop
-##TRANSCRIPTION_IDS_20=$(grep TRI $QUANT_FILE| awk '{print $1}'| sort -u| head -200)     # TEST EX.: to run only 1st 200
-#TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u| tail -33)
-TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u)
+TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u| head -200)     # TEST EX.: to run only 1st 200
+#TRANSCRIPTION_IDS=$(grep TRI "$QUANT_FILE"| awk '{print $1}'| sort -u)
 
 echo "Results will be written to: (${FOUND_RESULTS_FILE})"
 echo "Seeking $(echo "$TRANSCRIPTION_IDS"| wc -l) unique TransctionIDs from file: ${QUANT_FILE##*/}"
@@ -49,20 +48,20 @@ echo "Seeking $(echo "$TRANSCRIPTION_IDS"| wc -l) unique TransctionIDs from file
 # MAIN LOOP
 for TID in $TRANSCRIPTION_IDS
 do
-    QUANT_BITS=$(grep "$TID" "$QUANT_FILE"| uniq| tr -d '\n')
-    quant_length=$(echo "$QUANT_BITS"| cut -f2)
-    quant_length=${quant_length%.*}
-    quant_tpm=$(echo "$QUANT_BITS"| cut -f4)
-    quant_tpm=${quant_tpm%.*}
+    QUANT_BITS=$(grep -w "$TID" "$QUANT_FILE"| uniq| tr -d '\n')
+    quant_tmp_length=$(echo "$QUANT_BITS"| cut -f2)
+    quant_length=${quant_tmp_length%.*}
+    quant_tmp_tpm=$(echo "$QUANT_BITS"| cut -f4)
+    quant_tpm=${quant_tmp_tpm%.*}
 
     # QUANT FILTER SECTION
-    if [ "$quant_tpm" -lt "$MINQ_TPM" ] && [ "$quant_length" -lt "$MINQ_LENGTH" ]
+    if [ "$quant_tpm" -lt "$MINQ_TPM" ] || [ "$quant_length" -lt "$MINQ_LENGTH" ]
     then
         echo "$TID: TPM($quant_tpm), Length($quant_length) QuantFILTERED">>$RUNLOG
         continue
     fi
 
-    ANNOTATION_BITS=$(grep "$TID" "$ANNOTATION_FILE"| cut -f3,7| uniq)
+    ANNOTATION_BITS=$(grep -w "$TID" "$ANNOTATION_FILE"| cut -f3,7| uniq)
     [ -z "$ANNOTATION_BITS" ] && numMatch=0 || numMatch=$(echo "$ANNOTATION_BITS"| wc -l)
 
     echo -n "."
@@ -87,10 +86,10 @@ do
              MATCHED_BITS=$(echo "$MATCHED_BITS"|tr -d '\n')
              [[ $MATCHED_BITS =~ $regex_annotation_empty ]]&& echo -e "$QUANT_BITS\t$MATCHED_BITS">>$FOUND_RESULTS_FILE
         done <<< "$ANNOTATION_BITS"
-        echo "$TID: found($numMatch)">>$RUNLOG
+        echo "$TID: TPM($quant_tpm), Length($quant_length), found($numMatch)">>$RUNLOG
     else
         # log notfound
-        echo "$TID: TPM($quant_tpm), Length($quant_length): NOTFOUND">>$RUNLOG
+        echo "$TID: TPM($quant_tpm), Length($quant_length), NOTFOUND">>$RUNLOG
     fi
 done
 
