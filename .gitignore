@@ -1,7 +1,12 @@
 input/*
 !input/.DoNotDeleteDir
+!input/*_testcase
 log/*
 output/*
+tmp/*
 *.sf
 *.fasta
 *.zip
+*.log
+*.tmp
+

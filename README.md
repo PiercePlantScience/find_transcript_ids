@@ -20,28 +20,81 @@
 
 ## Installation
 
+```bash
+# clone repo
+git clone https://github.com/PiercePlantScience/findTranscriptionIDs
+```
+
 ## Usage
 
 ```bash
-# assuming the qaunt.sf & trinotate_annotation_report.xls are of expected file types, formats, & in their expected location relative the current working directory
+# Cd into working repo directory
+cd findTranscriptonIDs
+
+## Usage Examples
+
+# assuming the qaunt.sf & trinotate_annotation_report.xls are of expected file types, formats,
+# & in their expected location relative the current working directory
 
 ./findTranscriptionIDs.sh <quant.sf> <trinotate_annotation_report.xls>
 
-# w/o parameters the script is expecting the hard-coded named files are in the input/wbc_quant directory.
+# Ex. 1 if TSV data files are in the working directory
+./findTranscriptionIDs.sh quant.sf trinotate_annotation_report.xls
+# -or-
+./findTranscriptionIDs.sh ./quant.sf ./trinotate_annotation_report.xls
 
+# Ex. 2 if TSV data files are in the working directory, but in another subfolder(s)
+# say ./input/..
+./findTranscriptionIDs.sh ./input/wbc_quant/quant.sf ./input/wbc_quant/trinotate_annotation_report.xls
+# -or-
+./findTranscriptionIDs.sh input/wbc_quant/quant.sf input/wbc_quant/trinotate_annotation_report.xls
+
+# The examples above all make use of the relative file path forms for the parametersx
+
+# In the Ex. 3 below, the parameters used would be an example of the absolute path forms (and one can usually distinquish absulute from relative paths by the starting character, as absolute will always start with the '/' character)
+./findTranscriptionIDs.sh /tmp/quant.sf /tmp/wbc_quant/trinotate_annotation_report.xls
+
+# Ex. 4 you can obviously mix the different path forms..
+./findTranscriptionIDs.sh input/wbc_quant/quant.sf /tmp/trinotate_annotation_report.xls
+
+# Ex. 5 w/o parameters the script will run the test case tsv file in the input/ directory:
+# - input/quant.sf.tsv_testcase
+# - input/trinotate_annotate_report.tsv_testcase
 ./findTranscriptionIDs.sh
+....
 ```
 
 ## Features
 
+- added testing data for quick script validation.
+- defaults to running test data when file parameter(s) is(are) provided.
+- script includes detailed logging
+- script is callable by user or script.
+- (*future enhancements): various filtering possiblities, update more compliant logging out formats.
+
 ## Contributing
 
+- setup your sshkey & add it to this repo
+- then use git protocol to "clone" (i.e. git clone <git@github.com>:PiercePlantScience/findTranscriptionIDs.git)
+- update & test your changes
+- submit pull request
+
 ## ChangeLog
+
+(updated 12/18/23) -
+
+- Fixed lingering dups in output file
+- change parameter usage behaviour.. (you must now expicitly declare input files when calling script - see Usage in README)
+- also, when parameter-less the script will now run the *_testcase input file to allow validation of script functionality
+- Refactor code loops for better efficiency
+- Update to UTC logging format & cleanup logging
+- Support no-tty scripting use
+- Test to run on git-bash windows & Debian/Ubuntu linux
 
 (updated 12/14/23) - refactor script for correct WBC quant.sf files
 
 - script finished/tested: see attached zip, pending UAT.
 - script now take input parameters of (quant.sf, trinotate_report) files & will default to looking for the named files in input/wbc_quant directory.
-- script now outputs matches with empty BLASTX & BLASTP hits to log/NOTFOUND
-- added aggregated header for output files
-- TODO: add similarity% elimination logic by comparing BLAST data, if required; 2) make script both callable user & scripts
+- script now outputs matches with empty BLASTX & BLASTP hits to log/NOTFOUND.
+- added aggregated header for output files.
+- TODO: add similarity% elimination logic by comparing BLAST data, if required; 2) make script both callable user & scripts.
