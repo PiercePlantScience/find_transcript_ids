@@ -88,7 +88,7 @@ cd findTranscriptonIDs
 - also, when parameter-less the script will now run the *_testcase input file to allow validation of script functionality
 - Refactor code loops for better efficiency
 - Update to UTC logging format & cleanup logging
-- Support no-tty scripting use
+- Support no-tty scripting us
 - Test to run on git-bash windows & Debian/Ubuntu linux
 
 (updated 12/14/23) - refactor script for correct WBC quant.sf files
