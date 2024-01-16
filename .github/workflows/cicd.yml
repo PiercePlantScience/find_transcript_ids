@@ -16,4 +16,5 @@ jobs:
 
     - name: Run my bash script
       run: |
+        chmod +x ./findTranscriptionIDs.sh
         ./findTranscriptionIDs.sh
