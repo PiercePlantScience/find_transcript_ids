@@ -7,12 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-
-    # - name: Set up Bash
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install -y bash
-
+    - uses: actions/checkout@v4
     - name: Run / Test script
-      run: ./findTranscriptionIDs.sh
+      run: |
+        ./findTranscriptionIDs.sh
