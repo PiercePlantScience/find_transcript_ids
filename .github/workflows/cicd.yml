@@ -1,0 +1,12 @@
+name: CI/CD Bash Script
+
+on: [push, pull_request]
+
+jobs:
+  run-bash-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run my bash script
+      run: bash findTranscriptionIDs.sh
