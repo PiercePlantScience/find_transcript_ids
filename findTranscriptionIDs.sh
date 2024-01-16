@@ -16,14 +16,14 @@ MINQ_LENGTH=1000
 
 #
 INPUTDIR=./input
-OUTPUTDIR=/tmp/$0/output
-LOGDIR=/tmp/$0/log
+OUTPUTDIR=/tmp/findTranscriptIDs/output
+LOGDIR=/tmp/findTranscriptionIDs/log
 RUNLOG=$LOGDIR/RUNLOG
 
 # make & reset stuff..
-#[ ! -d "$INPUTDIR" ] && mkdir $INPUTDIR
-[ ! -d "$OUTPUTDIR" ] && mkdir $OUTPUTDIR
-[ ! -d "$LOGDIR" ] && mkdir $LOGDIR
+#[ ! -d "$INPUTDIR" ] && mkdir -p $INPUTDIR
+[ ! -d "$OUTPUTDIR" ] && mkdir -p $OUTPUTDIR
+[ ! -d "$LOGDIR" ] && mkdir -p $LOGDIR
 
 # aggregated output header
 AGGREGATED_HEADER='Name\tLength\tEffectiveLength\tTPM\tNumReads\tsprot_Top_BLASTX_hit\tsprot_Top_BLASTP_hit'
