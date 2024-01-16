@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 #
@@ -6,10 +6,6 @@
 #
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Enable debugging
-##exec 3>&1
-##BASH_XTRACEFD=3
-##set -x
 
 #
 # QUANT FILTERS
@@ -125,7 +121,7 @@ do
     regex_annotation_empty="^.+[A-Z]+.+$"        # inverse match, is this good enough?
 
     [[ $ANNOTATION_BITS =~ $regex_annotation_empty ]]|| echo -e "$(echo "${filteredQuantSf[$TID]}"|tr -d '\n')\t$(echo "$ANNOTATION_BITS"|tr -d '\n')">>$EMPTY_RESULTS_FILE
-    
+
     if [ "$numMatch" -gt 0 ]
     then
         while IFS= read -r MATCHED_BITS; do
@@ -142,7 +138,7 @@ done
 [ -t 0 ] && echo .
 
 # sort -u the result file and sum the dups
-[ -f "$FOUND_RESULTS_TMPFILE" ] && { 
+[ -f "$FOUND_RESULTS_TMPFILE" ] && {
     wcResults=$(wc -l $FOUND_RESULTS_TMPFILE| awk '{print $1}'|tr -d '\n')
     sort -u $FOUND_RESULTS_TMPFILE>>$FOUND_RESULTS_FILE_UNIQ
     wcUniqResults=$(wc -l $FOUND_RESULTS_FILE_UNIQ| awk '{print $1}'|tr -d '\n')
