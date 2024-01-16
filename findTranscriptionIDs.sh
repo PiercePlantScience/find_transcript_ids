@@ -7,6 +7,8 @@
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+DISABLE_PRETTY_STATS=true
+
 #
 # QUANT FILTERS
 MINQ_TPM=10
@@ -98,8 +100,14 @@ do
 
     # screen stats the current line and print the progress
     filtered_records=$((filtered_records + 1))
-    [ -t 0 ] && echo -ne "\rTPM/Filtered records: $filtered_records / $(echo "$QUANTSF_TIDS"| wc -l)"
-
+    [ -t 0 ] && {
+        if $DISABLE_PRETTY_STATS
+        then
+            echo -n .
+        else
+            echo -ne "\rTPM/Filtered records: $filtered_records / $(echo "$QUANTSF_TIDS"| wc -l)"
+        fi
+    }
     # insert into hash for next step Mainloop processing
     filteredQuantSf["$TID"]="$QUANTSF_BITS"
 done
@@ -115,7 +123,14 @@ do
 
     # Clear the current line and print the progress
     processed_records=$((processed_records + 1))
-    [ -t 0 ] && echo -ne "\rProcessed records: $processed_records / ${#filteredQuantSf[@]}"
+    [ -t 0 ] && {
+        if $DISABLE_PRETTY_STATS
+        then
+            echo -n .
+        else
+            echo -ne "\rProcessed records: $processed_records / ${#filteredQuantSf[@]}"
+        fi
+    }
 
     # REGEX ANNOTATION EMPTY
     regex_annotation_empty="^.+[A-Z]+.+$"        # inverse match, is this good enough?
