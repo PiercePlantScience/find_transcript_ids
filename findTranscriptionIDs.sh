@@ -16,12 +16,12 @@ MINQ_LENGTH=1000
 
 #
 INPUTDIR=./input
-OUTPUTDIR=./output
-LOGDIR=./log
+OUTPUTDIR=/tmp/$0/output
+LOGDIR=/tmp/$0/log
 RUNLOG=$LOGDIR/RUNLOG
 
 # make & reset stuff..
-[ ! -d "$INPUTDIR" ] && mkdir $INPUTDIR
+#[ ! -d "$INPUTDIR" ] && mkdir $INPUTDIR
 [ ! -d "$OUTPUTDIR" ] && mkdir $OUTPUTDIR
 [ ! -d "$LOGDIR" ] && mkdir $LOGDIR
 
