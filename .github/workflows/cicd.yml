@@ -1,6 +1,9 @@
 name: CI/CD Bash Script
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - './findTranscriptID.sh'
 
 jobs:
   run-bash-script:
