@@ -82,8 +82,8 @@ cd findTranscriptonIDs
 ## Modification Roadmaps
 (notes from 1/17/24 meeting for "filtering" improvements) -
 
-- new algo for resolving BLAST-X & BLAST-Y diffs for same transactionsIDs, only keep duplicate IDs if from different ranges, otherwise keep the best sample.
-- gene elimination of none plants using following keywords - mouse, human, bacteria, fungi, and possibly others.
+- new algo for resolving BLASTX & BLASTP diffs for same transactionsIDs, only keep duplicate IDs if from different ranges, otherwise keep the best sample.
+- elimination of none plants genes using following keywords - mouse, human, bacteria, fungi, and possibly others.
 
 
 ## ChangeLog
