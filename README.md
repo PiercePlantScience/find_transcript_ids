@@ -16,7 +16,7 @@
 - [Usage](#usage)
 - [Features](#features)
 - [Contributing](#contributing)
-- [Modifications&Roadmaps](#modifications&roadmaps)
+- [Modifications](#modifications)
 - [ChangeLog](#changelog)
 
 ## Installation
@@ -80,7 +80,7 @@ cd findTranscriptonIDs
 - update & test your changes
 - submit pull request
 
-## Modifications&Roadmaps
+## Modifications
 (notes from my code review/refactor session on 1/21/24) - 
 
 - to improve performance of 2 loops in the script, we can for the "1st-loop" (this loop does the TPM>10 & Length>1000 filtering) which currently does not utilize awk & probably can get a performance boost here by converting the current use of cut/tr and bash's if to produce the filtered QUANTSF file.  The 2nd-loop can probably benefit by being refactored into 2 loops (one loop would do something similar to TRINOTATE file not different from the filtering "1st-loop" for the QUANTSF file - since now we have way to rid some anything that's not plant related from TRINOTATE; the other loop would do pretty much same thing as the original "2nd-loop", but I'm looking to convert the current Hash loop variable to a Hash-of-Arrays here that can be used across all the loops mentioned.
