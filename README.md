@@ -70,20 +70,25 @@ cd findTranscriptonIDs
 - added testing data for quick script validation.
 - defaults to running test data when file parameter(s) is(are) provided.
 - script includes detailed logging
-- script is callable by user or script.
-- (*future enhancements): various filtering possiblities, update more compliant logging out formats.
+- script is callable on cmdline or script.
+- (*future enhancements): various filtering possible.., update more compliant logging out formats.
 
 ## Contributing
 
-- setup your sshkey & add it to this repo
+- get hold of your ssh public key, create 1 - the public/private pair if required, then add the public key to this repo
 - then use git protocol to "clone" (i.e. git clone <git@github.com>:PiercePlantScience/findTranscriptionIDs.git)
 - update & test your changes
-- submit pull request
+- submit a pull request
 
 ## Modifications
+(notes from post code refactor session on 1/22/24) -
+
+- completely refactored code due to performance improvements seen after - 1) replacing the first LOOP with 'awk' cmd for quant.sf MIN TPM & LEN filtering, and 2) replacing the second LOOP with 'join' cmd - the job can now finish in under 2 secs on my development laptop with the current datasets.  (Perhaps the CI done via Github's workflow may now work) 
+- since the code is now completely different from the previous version, I'm looking to bump the new code to Ver. 0.99 to prepare for an eventual version 1.0 release.  Various other adds, such as command line switches, and other user tweak-ables, as well as better user feedback and logging, and this README will need to be updated & should the Github Workflow Action happen to work - likely will need to add a CI.md ;)..
+
 (notes from my code review/refactor session on 1/21/24) - 
 
-- to improve performance of 2 loops in the script, we can for the "1st-loop" (this loop does the TPM>10 & Length>1000 filtering) which currently does not utilize awk & probably can get a performance boost here by converting the current use of cut/tr and bash's if to produce the filtered QUANTSF file.  The 2nd-loop can probably benefit by being refactored into 2 loops (one loop would do something similar to TRINOTATE file not different from the filtering "1st-loop" for the QUANTSF file - since now we have way to rid some anything that's not plant related from TRINOTATE; the other loop would do pretty much same thing as the original "2nd-loop", but I'm looking to convert the current Hash loop variable to a Hash-of-Arrays here that can be used across all the loops mentioned.
+- to improve the performance of 2 loops in the script, we can for the "1st-loop" (this loop does the TPM>10 & Length>1000 filtering) which currently does not utilize awk & probably can get a performance boost here by converting the current use of cut/tr and bash's if to produce the filtered QUANTSF file.  The 2nd-loop can probably benefit by being refactored into 2 loops (one loop would do something similar to TRINOTATE file not different from the filtering "1st-loop" for the QUANTSF file - since now we have way to rid some anything that's not plant related from TRINOTATE; the other loop would do pretty much same thing as the original "2nd-loop", but I'm looking to convert the current Hash loop variable to a Hash-of-Arrays here that can be used across all the loops mentioned.
 - while working out the TRINOTATE filtering, I discovered what I believe can achieve the same by just greping for "Eukaryota" in the TRINOTATE file - this might work better than filtering out via - mouse, human, bacteria, fungi, (viruses).. from the TRINOATE file - 1 grep command instead of many.
 
 
