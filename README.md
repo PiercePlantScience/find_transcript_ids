@@ -1,4 +1,4 @@
-# findTranscriptionIDs
+# find_transcription_ids (refactored name)
 
 ![project banner](img/BANNER_findTranscriptionID_800x200.png)
 
