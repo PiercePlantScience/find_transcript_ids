@@ -1,4 +1,4 @@
-## find_transcript_ids.sh
+## find_transcript_ids
 
 ![project banner](img/BANNER_findTranscriptionID_800x200.png)
 
@@ -24,7 +24,7 @@ git clone https://github.com/PiercePlantScience/find_transcript_ids
 
 ```bash
 # Cd into working repo directory
-cd findTranscriptonIDs
+cd find_transcript_ids
 
 ## Usage Examples
 
