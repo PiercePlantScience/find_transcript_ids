@@ -1,4 +1,4 @@
-name: CI/CD Bash Script
+name: CI
 
 on:
   push:
