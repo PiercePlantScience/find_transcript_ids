@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #
-#
 
 SCRIPT_TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
 source .find_transcript_ids_vars_n_functions
