@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #
+#
 
 SCRIPT_TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
 source .find_transcript_ids_vars_n_functions
@@ -23,7 +24,7 @@ source .shell_functions
 echo "LOGDIR is $LOGDIR"
 echo "RUNLOG is $RUNLOG"
 echo "FOUND_FILE is $FOUND_FILE"
-echo "NONPLANT_GREP_STRING is $NONPLANT_GREP_STRING"
+#echo "NONPLANT_GREP_STRING is $NONPLANT_GREP_STRING"
 
 [ ! -d "$LOGDIR" ] && mkdir -p $LOGDIR
 [ ! -d "$TMPDIR" ] && mkdir -p $TMPDIR
