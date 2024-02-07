@@ -1,6 +1,7 @@
 ## find_transcript_ids
 
 ![project banner](img/BANNER_findTranscriptionID_800x200.png)
+[![CI/CD Bash Script](https://github.com/PiercePlantScience/find_transcript_ids/actions/workflows/cicd.yml/badge.svg)](https://github.com/PiercePlantScience/find_transcript_ids/actions/workflows/cicd.yml)
 
 <b>find_transcript_ids.sh -</b> is a simple shell script that take a <b>first-column unique index</b> source qaunt.sf file and will look for matches in a user supplied trinotate_annotated_report.xls file, and append BLASTX hit & BLASTP hit columns to a new TSV formated text file containing the quant.sf data as well as the matched line(s) - in the case where multiple matches are found, currently, the solution is to create a duplicate quant.sf row to accommodate the multiple matches (a one-to-many join essentially..).
 
