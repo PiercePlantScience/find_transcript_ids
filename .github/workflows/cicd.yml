@@ -3,9 +3,7 @@ name: CI/CD Bash Script
 on:
   push:
     paths:
-      - './find_transcript_ids.sh'
-      - './.find_transcript_ids_vars_n_functions'
-      - './.shell_functions'
+        - '**/*.sh'
 
 jobs:
   run-bash-script:
