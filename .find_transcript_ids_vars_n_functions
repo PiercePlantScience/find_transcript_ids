@@ -1,6 +1,7 @@
 #!/bin/env bash
-
-
+#
+#
+#
 # Defaults
 DEFAULT_LEN_MIN="1000"
 DEFAULT_TPM_MIN="10"
