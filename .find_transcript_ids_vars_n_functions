@@ -1,0 +1,95 @@
+#!/bin/env bash
+
+
+# Defaults
+DEFAULT_LEN_MIN="1000"
+DEFAULT_TPM_MIN="10"
+DEFAULT_OUTPUT_DIR=/tmp/${0#./}
+TEST=./test
+TEST_QUANTSF_FILE="$TEST/quant.sf.tsv_test"
+TEST_TRINOTATE_FILE="$TEST/trinotate.tsv_test"
+
+# Other Settables
+NONPLANT_GREP_STRING='VIRUS\|MOUSE\|HUMAN\|BACTRIA\|FUNGI'
+
+# Function to extract the value from option
+parse_option() {
+    echo "$1" | cut -d '=' -f 2
+}
+
+# Resetting variables
+LEN_MIN=""
+TPM_MIN=""
+QUANTSF_FILE=""
+TRINOTATE_FILE=""
+
+# Function to display help
+display_help() {
+    echo "Usage: $0 [options] [quant.sf] [trinotate.tsv]"
+    echo
+    echo "Options:"
+    echo "  --TPM_MIN=<value>       Set the minimum TPM value"
+    echo "  --LEN_MIN=<value>       Set the minimum length value"
+    echo "  --OUTPUT_DIR=<value>    Set the RESULT file output directory (default to: $DEFAULT_OUTPUT_DIR)"
+    echo "                          **Must be User writable"
+    echo "  --TEST		    Run the built-in testcase to validate script"
+    echo "  -h, --help              Display this help message"
+    echo
+    echo "Positional Arguments:"
+    echo "  quant.sf                Quant.sf file"
+    echo "  trinotate.tsv           Trinotate file"
+    echo
+    echo "(**NOTE: Both these files are required to be in TSV format)"
+    echo
+    echo "Example:"
+    echo "  $0 --TPM_MIN=15 --LEN_MIN=1500 quant.sf trinoate.tsv"
+    exit 0
+}
+
+parse_arguments() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -TPM_MIN=*|--TPM_MIN=*)
+                TPM_MIN=$(parse_option $1)
+                shift
+                ;;
+            -LEN_MIN=*|--LEN_MIN=*)
+                LEN_MIN=$(parse_option $1)
+                shift
+                ;;
+            -OUTPUT_DIR=*|--OUTPUT_DIR=*)
+                OUTPUT_DIR=$(parse_option $1)
+                shift
+                ;;
+            -TEST|--TEST)
+                QUANTSF_FILE=$TEST_QUANTSF_FILE
+                TRINOTATE_FILE=$TEST_TRINOTATE_FILE
+                shift
+                ;;
+            -h|--help)
+                display_help
+                ;;
+            -*|--*)
+                display_help
+                ;;
+            *)
+                if [ -z "$QUANTSF_FILE" ]; then
+                    QUANTSF_FILE=$1
+                elif [ -z "$TRINOTATE_FILE" ]; then
+                    TRINOTATE_FILE=$1
+                else
+                    display_help
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # last empty param check
+    [ -z "$QUANTSF_FILE" ] || [ -z "$TRINOTATE_FILE" ] && display_help
+
+    # Assign default values if not provided
+    LEN_MIN=${LEN_MIN:-$DEFAULT_LEN_MIN}
+    TPM_MIN=${TPM_MIN:-$DEFAULT_TPM_MIN}
+    OUTPUT_DIR=${OUTPUT_DIR:-$DEFAULT_OUTPUT_DIR}
+}

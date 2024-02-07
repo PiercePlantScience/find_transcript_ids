@@ -3,7 +3,7 @@ name: CI/CD Bash Script
 on:
   push:
     paths:
-      - './findTranscriptID.sh'
+      - './find_transcript_ids.sh'
 
 jobs:
   run-bash-script:
@@ -11,10 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: show CWD
-      run: pwd
-    - name: cat script
-      run: cat ./findTranscriptionIDs.sh
     - name: Run / Test script
       run: |
-        ./findTranscriptionIDs.sh
+        ./find_transcript_ids.sh --TEST

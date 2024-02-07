@@ -1,0 +1,58 @@
+#!/bin/env bash
+
+LOG_FILE="script.log.$SCRIPT_TIMESTAMP"
+[ -n "$LOGDIR" ] && LOG_FILE="$LOGDIR/script.log.$SCRIPT_TIMESTAMP"
+
+# Function for logging events with a timestamp
+log_event() {
+    if [ -t 1 ]; then
+        echo "$1"
+    fi
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+# Spinner function
+spinner() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " %c  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
+
+# Function to run commands with spinner, logging, and duration tracking
+run_command() {
+    local name=$1
+    local cmd=$2
+    local job_start=$(date +%s.%N)
+    log_event "Starting task: $name.."
+
+    # Start spinner
+    if [ -t 1 ]; then
+        spinner $$ &
+        SPINNER_PID=$!
+    fi
+
+    # Execute the command
+    eval $cmd
+
+    # Stop spinner
+    if [ -t 1 ] && [ ! -z "$SPINNER_PID" ]; then
+        kill $SPINNER_PID
+        wait $SPINNER_PID 2>/dev/null
+        # Clear the spinner's last output
+        echo -ne "\r                      \r"
+    fi
+
+    local job_end=$(date +%s.%N)
+    #local duration=$(($job_end - $job_start))
+    ##local duration=$(echo "$job_end - $job_start" | bc)
+    local duration=$(awk "BEGIN {print $job_end - $job_start}")
+    log_event "Completing task: $name (${duration}s)."
+}
