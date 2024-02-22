@@ -62,7 +62,7 @@ run_command "Filtering by LEN_MIN($LEN_MIN) & TPM_MIN($TPM_MIN)" "awk -F'\t' -v 
 
 # CMD: sort & replace header in *quant.sf file
 # sort and prep quant.sf file for join with our trinotate file
-run_command "Sorting quant.sf" "sort -t $'\t' -k1,1 \"$FILTERED_QUANTSF_FILE\" > \"$SORTED_FILTERED_QUANTSF_FILE\""
+run_command "Sorting quant.sf" "LC_ALL=C sort -t $'\t' -k1,1 \"$FILTERED_QUANTSF_FILE\" > \"$SORTED_FILTERED_QUANTSF_FILE\""
 run_command "Fixing quant.sf" "sed -i '1s/Name/transcript_id/' \"$SORTED_FILTERED_QUANTSF_FILE\""
 
 # tally file proc results
@@ -90,7 +90,8 @@ run_command "Trimming BLASTX & BLASTP" "cut -f2,3,7 \"$EUKARYOTA_FILTERED_TRINOT
 # prep header & remove dups in our intermediary working file
 # CMD: sort/uniq the *trinotate file
 run_command "Removing Dups Step #1: Prep Intermmediate file's header" "head -n 1 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
-run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" | sort -ut $'\t' >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" |sort -ut $'\t' >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+#run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" | sort -t $'\t' |uniq >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 
 # prep/sort trinotate for join operation w/quant.sf
 # CMD: sort again the *trinotate file
