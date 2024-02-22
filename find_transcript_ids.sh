@@ -91,13 +91,10 @@ run_command "Trimming BLASTX & BLASTP" "cut -f2,3,7 \"$EUKARYOTA_FILTERED_TRINOT
 # CMD: sort/uniq the *trinotate file
 run_command "Removing Dups Step #1: Prep Intermmediate file's header" "head -n 1 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 run_command "Removing Dups, Step #2: Storing & removing Dups" "LC_ALL=C tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" |sort -ut $'\t' -k1,1 >> \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
-cp 
 #run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" | sort -t $'\t' |uniq >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
-
 ## prep/sort trinotate for join operation w/quant.sf
 ## CMD: sort again the *trinotate file
 #run_command "Resorted the Newly minted Intermmediate file" "sort -t $'\t' -k1,1 \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
-cp 
 
 # tally file proc results
 count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file=$(wc -l< $SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE)
@@ -116,7 +113,7 @@ run_command "Joining quant.sf & trinotate file" "join -t $'\t' \"$SORTED_FILTERE
 
 # filtering out non-plants
 # CMD: grep -V "NONPLANT_GREP_STRING" from the *joined file
-run_command "Last Step, filtering out non-plants" "grep -vi \"$NONPLANT_GREP_STRING\" \"$JOIN_FILE\" > \"$FOUND_FILE\""
+run_command "Last Step, filtering out non-plants" "LC_ALL=C grep -vi \"$NONPLANT_GREP_STRING\" \"$JOIN_FILE\" > \"$FOUND_FILE\""
 
 # final count
 count_found_file=$(wc -l< $FOUND_FILE); ((count_found_file--))
