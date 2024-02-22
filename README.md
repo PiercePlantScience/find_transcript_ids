@@ -20,20 +20,25 @@
 
 ### Script Layout
 
-Script is named: <b>find_transcript_ids.sh</b> and has the following dependcies files under a hidden system directory called: <b>.func</b> -
+Script is named: <b>find_transcript_ids.sh</b> and has the following dependcies files under a hidden system directory called: <b>.func/</b> -
 
 ```bash
 .func/
-|-- .find_transcript_ids_vars_n_functions
+`-- .find_transcript_ids_vars_n_functions
 `-- .shell_functions
 ```
 
-<b>.find_transcript_ids_vars_n_functions - </b>contains variables and functions relating to the transcript process.<br>
-<b>.shell_functions - </b>contains functions that support general shell functions, such as paramater handling, help menus, user feedbacks, logging, & timers.<
+<b>.func/.find_transcript_ids_vars_n_functions - </b>contains variables and functions relating to the transcript process.<br>
+<b>.func/.shell_functions - </b>contains functions that support general shell functions, such as paramater handling, help menus, user feedbacks, logging, & timestamps/accumulators.
 <br>
 <br>
 The script probably error on the side of too many named VARIABLES for all the intermediate files, and this was done to allow ease of debugging, ultimately - so all command step changes can be backtraced (so debugged enabled by default;)..
-<br><br>
+<br>
+Here's explicit list of them (Note: the default /tmp output dir can be changed with command line option: "--OUTPUT_DIR=<user-writable-dir>") -
+```bash
+(TO ADD..)
+```
+<br>
 Here are the main linux/unix commands used in sequence in <b>find_transcript_ids.sh - </b>
 
 - <b>awk</b> x > xmin & y > ymin <i>*quant.sf</i> file
