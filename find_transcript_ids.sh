@@ -84,18 +84,20 @@ JOIN_FILE=$TMPDIR/join_file
 
 # filtering only for 'Eukaryota', trimming for only transcript_id|BLASTX|BLASTP
 # CMD: grep 'Eukaryota' in *trinotate file & cut out only needed columns: tid|blastx|blastp
-run_command "Filtering 'Eukaryota' from trinotate file" "(head -n 1 \"$TRINOTATE_FILE\" && tail -n +2 \"$TRINOTATE_FILE\" | grep \"Eukaryota\") > \"$EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+run_command "Filtering 'Eukaryota' from trinotate file" "(head -n 1 \"$TRINOTATE_FILE\" && LC_ALL=C tail -n +2 \"$TRINOTATE_FILE\" | LC_ALL=C grep \"Eukaryota\") > \"$EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 run_command "Trimming BLASTX & BLASTP" "cut -f2,3,7 \"$EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 
 # prep header & remove dups in our intermediary working file
 # CMD: sort/uniq the *trinotate file
-run_command "Removing Dups Step #1: Prep Intermmediate file's header" "head -n 1 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
-run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" |sort -ut $'\t' >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+run_command "Removing Dups Step #1: Prep Intermmediate file's header" "head -n 1 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+run_command "Removing Dups, Step #2: Storing & removing Dups" "LC_ALL=C tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" |sort -ut $'\t' -k1,1 >> \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+cp 
 #run_command "Removing Dups, Step #2: Storing & removing Dups" "tail -n +2 \"$TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" | sort -t $'\t' |uniq >> \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 
-# prep/sort trinotate for join operation w/quant.sf
-# CMD: sort again the *trinotate file
-run_command "Resorted the Newly minted Intermmediate file" "sort -t $'\t' -k1,1 \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+## prep/sort trinotate for join operation w/quant.sf
+## CMD: sort again the *trinotate file
+#run_command "Resorted the Newly minted Intermmediate file" "sort -t $'\t' -k1,1 \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
+cp 
 
 # tally file proc results
 count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file=$(wc -l< $SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE)
