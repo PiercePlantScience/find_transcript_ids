@@ -8,12 +8,43 @@
 
 ## Table of Contents
 
+- [Details](#details)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [Contributing](#contributing)
 - [Modifications](#modifications)
 - [ChangeLog](#changelog)
+
+## Details
+
+### Script Layout
+
+Script is named: <b>find_transcript_ids.sh</b> and has the following dependcies files under a hidden system directory called: <b>.func</b> -
+
+```bash
+.func/
+|-- .find_transcript_ids_vars_n_functions
+`-- .shell_functions
+```
+
+<b>.find_transcript_ids_vars_n_functions - </b>contains variables and functions relating to the transcript process.<br>
+<b>.shell_functions - </b>contains functions that support general shell functions, such as paramater handling, help menus, user feedbacks, logging, & timers.<
+<br>
+<br>
+The script probably error on the side of too many named VARIABLES for all the intermediate files, and this was done to allow ease of debugging, ultimately - so all command step changes can be backtraced (so debugged enabled by default;)..
+<br><br>
+Here are the main linux/unix commands used in sequence in <b>find_transcript_ids.sh - </b>
+
+- <b>awk</b> x > xmin & y > ymin <i>*quant.sf</i> file
+- <b>sort</b> & replace header in <i>*quant.sf</i> file
+- <b>grep</b> 'Eukaryota' in <i>*trinotate</i> file & cut out only needed columns: <b>tid|blastx|blastp</b>
+- <b>sort/uniq</b> the <i>*trinotate</i> file
+- <b>sort</b> again the <i>*trinotate</i> file
+- <b>join</b>(ing) <i>*trinotate</i> & <i>*quant.sf</i> files
+- <b>grep</b> -V "NONPLANT_GREP_STRING" from the <i>*joined</i> file
+
+(***this script have been tested to work with git bash for windows**)
 
 ## Installation
 
