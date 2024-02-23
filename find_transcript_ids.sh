@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 #
 #
+set -ex
+set -o pipefail
 
 SCRIPT_TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+export SCRIPT_TIMESTAMP
+
 source .func/.find_transcript_ids_vars_n_functions
 
 #
@@ -78,7 +82,6 @@ log_event "PROCESSING TRINOTATE ($TRINOTATE_FILE) >>>>>"
 # intermediary files
 EUKARYOTA_FILTERED_TRINOTATE_FILE=$TMPDIR/eukaryota_filtered_trinotate_file
 TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE=$TMPDIR/trimmed_eukaryota_filtered_trinotate_file
-UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE=$TMPDIR/uniqued_trimmed_eukaryota_filtered_trinotate_file
 SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE=$TMPDIR/sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file
 JOIN_FILE=$TMPDIR/join_file
 
@@ -97,7 +100,7 @@ run_command "Removing Dups, Step #2: Storing & removing Dups" "LC_ALL=C tail -n 
 #run_command "Resorted the Newly minted Intermmediate file" "sort -t $'\t' -k1,1 \"$UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\" > \"$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE\""
 
 # tally file proc results
-count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file=$(wc -l< $SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE)
+count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file=$(wc -l< "$SORTED_UNIQUED_TRIMMED_EUKARYOTA_FILTERED_TRINOTATE_FILE")
 ((count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file--))
 count_trinotate_file=$(wc -l< $TRINOTATE_FILE); ((count_trinotate_file--))
 log_event "::trinotate counts now: ($count_sorted_uniqued_trimmed_eukaryota_filtered_trinotate_file/$count_trinotate_file)"

@@ -1,7 +1,16 @@
 #!/bin/env bash
+set -e
+set -o pipefail
 
-LOG_FILE="script.log.$SCRIPT_TIMESTAMP"
-[ -n "$LOGDIR" ] && LOG_FILE="$LOGDIR/script.log.$SCRIPT_TIMESTAMP"
+#LOG_FILE="script.log.$SCRIPT_TIMESTAMP"
+#[ -n "$LOGDIR" ] && LOG_FILE="$LOGDIR/script.log.$SCRIPT_TIMESTAMP"
+
+if [ -n "$LOGDIR" ]; then
+    mkdir -p "$LOGDIR"  # Ensure the directory exists
+    LOG_FILE="$LOGDIR/script.log.$SCRIPT_TIMESTAMP"
+else
+    LOG_FILE="script.log.$SCRIPT_TIMESTAMP"
+fi
 
 # Function for logging events with a timestamp
 log_event() {
@@ -16,7 +25,9 @@ spinner() {
     local pid=$1
     local delay=0.1
     local spinstr='|/-\'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+    #while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+    #while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+    while kill -0 $pid 2>/dev/null; do
         local temp=${spinstr#?}
         printf " %c  " "$spinstr"
         local spinstr=$temp${spinstr%"$temp"}
@@ -40,19 +51,34 @@ run_command() {
     fi
 
     # Execute the command
-    eval $cmd
+    ## eval $cmd
+
+    set +e  # Disable 'exit on error' within this function
+    eval "$cmd"
+    local status=$?
+    set -e  # Re-enable 'exit on error'
+
+    if [ $status -ne 0 ]; then
+        log_event "Error during task: $name with status $status"
+        return $status  # or 'exit $status' if you want to terminate the script
+    fi
+
 
     # Stop spinner
+    set +e
     if [ -t 1 ] && [ ! -z "$SPINNER_PID" ]; then
-        kill $SPINNER_PID
-        wait $SPINNER_PID 2>/dev/null
+        kill "$SPINNER_PID" 2>/dev/null
+        wait "$SPINNER_PID" 2>/dev/null
         # Clear the spinner's last output
         echo -ne "\r                      \r"
     fi
+    set -e
 
-    local job_end=$(date +%s.%N)
+    local job_end
+    job_end=$(date +%s.%N)
     #local duration=$(($job_end - $job_start))
     ##local duration=$(echo "$job_end - $job_start" | bc)
-    local duration=$(awk "BEGIN {print $job_end - $job_start}")
+    local duration
+    duration=$(awk "BEGIN {print $job_end - $job_start}")
     log_event "Completing task: $name (${duration}s)."
 }

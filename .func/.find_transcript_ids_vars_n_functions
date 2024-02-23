@@ -2,6 +2,9 @@
 #
 #
 #
+set -e
+set -o pipefail
+
 # Defaults
 DEFAULT_LEN_MIN="1000"
 DEFAULT_TPM_MIN="10"
@@ -12,6 +15,7 @@ TEST_TRINOTATE_FILE="$TEST/trinotate.tsv_test"
 
 # Other Settables
 NONPLANT_GREP_STRING='VIRUS\|MOUSE\|HUMAN\|BACTRIA\|FUNGI'
+export NONPLANT_GREP_STRING
 
 # Function to extract the value from option
 parse_option() {
@@ -70,7 +74,7 @@ parse_arguments() {
             -h|--help)
                 display_help
                 ;;
-            -*|--*)
+            -*)
                 display_help
                 ;;
             *)
