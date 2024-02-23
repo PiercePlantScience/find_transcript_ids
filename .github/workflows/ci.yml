@@ -11,8 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    #- name: Set execute permission on script
-    #  run: chmod +x ./find_transcript_ids.sh
     - name: Run / Test script
       run: |
         ./find_transcript_ids.sh --TEST

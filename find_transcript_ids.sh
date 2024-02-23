@@ -4,6 +4,7 @@
 set -ex
 set -o pipefail
 
+#
 SCRIPT_TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
 export SCRIPT_TIMESTAMP
 
