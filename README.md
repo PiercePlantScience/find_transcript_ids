@@ -6,7 +6,7 @@
 
 <b>find_transcript_ids.sh -</b> is a simple shell script that take a <b>first-column unique index</b> source qaunt.sf file and will look for matches in a user supplied trinotate_annotated_report.xls file, and append BLASTX hit & BLASTP hit columns to a new TSV formated text file containing the quant.sf data as well as the matched line(s) - in the case where multiple matches are found, currently, the solution is to create a duplicate quant.sf row to accommodate the multiple matches (a one-to-many join essentially..).
 
-Originally, the initial version of this script uses 2 FOR LOOPS to look for matches by iterate over the unique transcript_id from the qaunt_sf file and look for matches from the trinotate file - this method was found to be too expensive, and is essentially the "Brute Force" solution to the task.  By making more efficient use of linux's/unix's AWK & SORT/JOIN utilities, the same task can be accomplish with significantly less compute power -  more of this can be found in the [Details](#details) section.
+Originally, the initial version of this script uses 2 FOR LOOPS to look for matches by iterate over the unique transcript_id from the qaunt_sf file and look for matches from the trinotate file - this method was found to be too expensive, and is essentially the "Brute Force" solution to the task.  By making more efficient use of linux's/unix's AWK & SORT/JOIN utilities, the same task can be accomplish with significantly less compute power -  more of this can be found under the [Details](#details) section.
 
 
 ## Table of Contents
